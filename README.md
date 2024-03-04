@@ -1,0 +1,1 @@
+# go-alertmanager-wechatrobot-webhook
