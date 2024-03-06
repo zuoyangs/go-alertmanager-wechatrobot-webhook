@@ -37,4 +37,4 @@ COPY --from=builder /app/go-webchat /opt/go-webchat
 
 EXPOSE 8080
 
-CMD ["/opt/go-webchat", "--RobotKey=577aa9e0-816f-49f4-80d7-40e0237c77c5"]
+CMD ["/opt/go-webchat", "--RobotKey=xxxxxxxx"]
