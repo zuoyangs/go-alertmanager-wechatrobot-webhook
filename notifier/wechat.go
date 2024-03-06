@@ -4,24 +4,28 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/zuoyangs/go-alertmanager-wechatrobot-webhook/model"
-	"github.com/zuoyangs/go-alertmanager-wechatrobot-webhook/transformer"
+	"github.com/zuoyangs/go-alertmanager-wechatrobot-webhook/template"
 )
 
 // Send send message to wechat
 func Send(notification model.Notification, defaultRobot string) (err error) {
 
-	markdown, robotURL, err := transformer.TransformToMarkdown(notification)
+	markdown, robotURL, err := template.TemplateToMarkdown(notification)
 
 	if err != nil {
-		return
+		log.Printf("template.TemplateToMarkdown 出错:%s", err.Error())
+
 	}
+	log.Printf("markdown:%+v", markdown)
 
 	data, err := json.Marshal(markdown)
+
 	if err != nil {
-		return
+		log.Printf("json.Marshal 出错:%s", err.Error())
 	}
 
 	var wechatRobotURL string
@@ -38,7 +42,7 @@ func Send(notification model.Notification, defaultRobot string) (err error) {
 		bytes.NewBuffer(data))
 
 	if err != nil {
-		return
+		log.Printf("http.NewRequest 出错:%s", err.Error())
 	}
 
 	req.Header.Set("Content-Type", "application/json")
@@ -46,7 +50,7 @@ func Send(notification model.Notification, defaultRobot string) (err error) {
 	resp, err := client.Do(req)
 
 	if err != nil {
-		return
+		log.Printf("client.Do 出错:%s", err.Error())
 	}
 
 	defer resp.Body.Close()

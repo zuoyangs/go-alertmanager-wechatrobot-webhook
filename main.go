@@ -34,7 +34,10 @@ func main() {
 	router := gin.Default()
 	router.POST("/webhook", func(c *gin.Context) {
 
-		c.JSON(http.StatusOK, c.Request)
+		if len(RobotKey) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "RobotKey is empty"})
+			return
+		}
 
 		var notification model.Notification
 

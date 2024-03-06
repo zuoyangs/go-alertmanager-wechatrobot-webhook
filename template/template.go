@@ -1,4 +1,4 @@
-package transformer
+package template
 
 import (
 	"bytes"
@@ -7,8 +7,8 @@ import (
 	"github.com/zuoyangs/go-alertmanager-wechatrobot-webhook/model"
 )
 
-// TransformToMarkdown 将告警信息转换为markdown格式
-func TransformToMarkdown(notification model.Notification) (markdown *model.WeChatMarkdown, robotURL string, err error) {
+// Template 将告警信息转换为markdown格式
+func TemplateToMarkdown(notification model.Notification) (markdown *model.WeChatMarkdown, robotURL string, err error) {
 
 	status := notification.Status
 
@@ -18,7 +18,6 @@ func TransformToMarkdown(notification model.Notification) (markdown *model.WeCha
 	var buffer bytes.Buffer
 
 	buffer.WriteString(fmt.Sprintf("### 当前状态:%s \n", status))
-	// buffer.WriteString(fmt.Sprintf("#### 告警项:\n"))
 
 	for _, alert := range notification.Alerts {
 		labels := alert.Labels
